@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banking-app
+  labels:
+    app: banking
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: banking
+  template:
+    metadata:
+      labels:
+        app: banking
+    spec:
+      containers:
+      - name: banking-container
+        image: DOCKER_IMAGE_PLACEHOLDER
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: banking-service
+spec:
+  type: NodePort
+  selector:
+    app: banking
+  ports:
+  - port: 80
+    targetPort: 5000
+    nodePort: 30080
